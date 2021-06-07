@@ -3,7 +3,7 @@ from typing import Optional
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from gql import Client
-from gql.transport.aiohttp import AIOHTTPTransport
+from gql.transport.requests import RequestsHTTPTransport
 
 from queries import AllExercisesResult, all_exercises_query, exercise_by_id_query, ExerciseByIdVariables, \
     ExerciseByIdExercise
@@ -11,7 +11,15 @@ from views.exercise_view import exercise_view
 from views.home_view import home_view
 
 client: Client = Client(
-    transport=AIOHTTPTransport(url='http://localhost:7000/graphql'),
+    transport=RequestsHTTPTransport(
+        url='http://localhost:7000/graphql',
+        use_json=True,
+        headers={
+            "Content-type": "application/json",
+        },
+        verify=False,
+        retries=3,
+    ),
     fetch_schema_from_transport=True
 )
 

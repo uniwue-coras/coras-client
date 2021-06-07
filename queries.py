@@ -1,14 +1,13 @@
 from typing import TypedDict, Optional, TypeVar, Generic
 
 from gql import gql, Client
-from graphql import DocumentNode
 
 T = TypeVar('T')
 V = TypeVar('V')
 
 
 class Query(Generic[T, V]):
-    query: DocumentNode
+    query: any
 
     def __init__(self, query: str):
         self.query = gql(query)
