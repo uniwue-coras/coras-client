@@ -1,25 +1,35 @@
-from functools import partial
 from typing import Callable
 
-from PyQt5.QtWidgets import QGridLayout, QPushButton, QWidget
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QGridLayout, QPushButton, QWidget, QLabel, QVBoxLayout
 
-from queries import AllExercisesResultExercise
-
-__exercises_per_row: int = 3
+from model import Exercise
 
 
-def home_view(exercises: list[AllExercisesResultExercise], on_select: Callable[[int], None]) -> QWidget:
-    layout = QGridLayout()
+class HomeView(QWidget):
+    __exercises_per_row: int = 3
 
-    for index, exercise in enumerate(exercises):
-        row = 0
-        column = index % __exercises_per_row
+    def __init__(self, exercises: list[Exercise], on_select: Callable[[int], None]):
+        super().__init__()
 
-        button = QPushButton(exercise['title'])
-        button.clicked.connect(partial(on_select, exercise['id']))
+        layout = QVBoxLayout()
+        layout.setAlignment(Qt.AlignCenter)
 
-        layout.addWidget(button, row, column)
+        title_label = QLabel()
+        title_label.setText('<h1>Exercises</h1>')
+        layout.addWidget(title_label)
 
-    widget = QWidget()
-    widget.setLayout(layout)
-    return widget
+        exercise_grid = QGridLayout()
+
+        for index, exercise in enumerate(exercises):
+            row = 0
+            column = index % HomeView.__exercises_per_row
+
+            button = QPushButton(exercise['title'])
+            button.clicked.connect(lambda: on_select(exercise['id']))
+
+            exercise_grid.addWidget(button, row, column)
+
+        layout.addLayout(exercise_grid)
+
+        self.setLayout(layout)

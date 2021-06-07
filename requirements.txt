@@ -6,7 +6,7 @@ pyqt5
 pyqt5-stubs
 
 # word files
-docx
+python-docx
 
 # other
 mypy
