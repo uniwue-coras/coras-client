@@ -1,5 +1,4 @@
 # graphql client
-aiohttp==3.7.4.post0
 gql==2.0.0
 
 # gui
