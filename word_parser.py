@@ -8,7 +8,7 @@ from docx import Document as open_document
 from docx.document import Document
 from docx.text.paragraph import Paragraph
 
-from model import SolutionEntry
+from model.solution_entry import SolutionEntry
 
 heading_regex: Pattern[str] = compile_regex(r"Heading (\d)")
 
@@ -82,7 +82,7 @@ def open_word_file(filename: Union[str, Path]) -> list[SolutionEntry]:
 
 class __OpenWordFileTest(TestCase):
     def test_open_word_file(self):
-        parsed = open_word_file(Path.cwd() / 'data' / 'Marvin_Musterman_Musterloesung_1438940966403.docx')
+        parsed = open_word_file(Path.cwd() / "data" / "Marvin_Musterman_Musterloesung_1438940966403.docx")
 
         self.assertIsNotNone(parsed)
 

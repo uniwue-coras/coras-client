@@ -1,7 +1,8 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QTreeWidget, QTreeWidgetItem
 
-from model import SolutionEntry, Exercise
+from model.exercise import Exercise
+from model.solution_entry import SolutionEntry
 
 
 def __build_tree_item__(solution_entry: SolutionEntry) -> QTreeWidgetItem:
