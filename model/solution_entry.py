@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import TypedDict, Optional, Literal
+from typing import TypedDict, Optional, Literal, TypeVar, Generic
 
 Applicability = Literal["NotSpecified", "NotApplicable", "Applicable"]
 
@@ -35,18 +35,32 @@ class FlatSolutionEntry(TypedDict):
     paragraphCitations: list[ParagraphCitation]
 
 
+T = TypeVar('T', bound='AbstractSolutionEntryMixin')
+
+
 @dataclass()
-class SolutionEntry:
+class AbstractSolutionEntryMixin(Generic[T]):
     id: int
     text: str
     applicability: Applicability
     definition: Optional[str] = None
-    # priority_oints: Optional[int] = None
+    # priority_points: Optional[int] = None
     # weight: Optional[int] = None
     # other_number: Optional[int] = None
     sub_texts: list[AnalyzedSubText] = field(default_factory=list)
+    children: list[T] = field(default_factory=list)
+
+
+@dataclass()
+class BasicSolutionEntry(AbstractSolutionEntryMixin["BasicSolutionEntry"]):
+    @property
+    def paragraph_citations(self) -> list[ParagraphCitation]:
+        return []
+
+
+@dataclass()
+class SolutionEntry(AbstractSolutionEntryMixin["SolutionEntry"]):
     paragraph_citations: list[ParagraphCitation] = field(default_factory=list)
-    children: list["SolutionEntry"] = field(default_factory=list)
 
 
 # SolutionEntry -> FlatSolutionEntry
