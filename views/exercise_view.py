@@ -9,11 +9,7 @@ from word_parser import open_word_file
 
 
 class ExerciseView(QWidget):
-    def __init__(
-            self,
-            exercise: Exercise,
-            show_solution: Callable[[int, list[SolutionEntry]], None],
-    ):
+    def __init__(self, exercise: Exercise, show_solution: Callable[[int, list[SolutionEntry]], None]):
         super().__init__()
 
         self.show_solution = show_solution
